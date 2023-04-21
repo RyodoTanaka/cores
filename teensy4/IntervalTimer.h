@@ -119,13 +119,13 @@ private:
 
 	template <typename period_t>
 	uint32_t cyclesFromPeriod(period_t period){
-		static_assert(std::is_arithmetic_v<period_t>, "Period must be arithmetic");
+		static_assert(std::is_arithmetic<period_t>, "Period must be arithmetic");
 		
 		if (period < 0 || period > MAX_PERIOD)
 			return 0;
-		if constexpr (std::is_integral_v<period_t>)       // evaluated at compiletime, handles all integral types
+		if constexpr (std::is_integral<period_t>)       // evaluated at compiletime, handles all integral types
 			return (24000000 / 1000000) * period - 1;
-		if constexpr (std::is_floating_point_v<period_t>) // evaluated at compiletime, handles all floating point types
+		if constexpr (std::is_floating_point<period_t>) // evaluated at compiletime, handles all floating point types
 			return (float)(24000000 / 1000000) * period - 0.5f;
 
         //Can't fall through, arithmetic is either integral or floting_point
